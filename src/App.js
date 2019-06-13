@@ -8,16 +8,17 @@ const PlayerCard = ({ color, symbol }) => {
     backgroundSize: 'cover',
     border: `black solid 6px`
   }
-  return (
-    <div style={style} className="player-card">
-      {/* <p>{symbol}</p> */}
-    </div>
-  )
+  return (<div style={style} className="player-card"></div>)
 }
 
-const PlayerButton = ({ color, symbol, onselect }) => {
+const NameCount = ({user, count}) => {
+  return (
+    <h2 style={{flexGrow:2}}>{user ? 'You : ' : "Cpu : "} {[count]} </h2>
+  )
+}
+const PlayerButton = ({ color, symbol, onselect, disabled }) => {
   const style = {
-    border: `white solid 3px`,
+    border: `black solid 5px`,
     padding: 0,
     height: '10em',
     flex: 1,
@@ -25,15 +26,11 @@ const PlayerButton = ({ color, symbol, onselect }) => {
     backgroundSize: 'cover',
     backgroundColor: color,
     margin: '10px'
-    // transform: 'rotateZ(90deg)',        
   }
   return (
-    <button style={style} onClick={onselect}></button>
+    <button style={style} onClick={onselect} disabled={disabled} className='selectButton'></button>
   )
 }
-
-// onClick={() => { console.log(symbol) }}
-
 class App extends Component {
 
   constructor(props) {
@@ -44,7 +41,10 @@ class App extends Component {
       disabled: false,
       playerRed: " ",
       playerYellow: " ",
-      winner: ""
+      winner: " ",
+      round: 0,
+      redWin: 0,
+      yellowWin: 0
     }
     this.runGame = this.runGame.bind(this);
   }
@@ -57,31 +57,40 @@ class App extends Component {
     if ((playerRed === 'rock' && playerYellow === "scissors") ||
       (playerRed === 'paper' && playerYellow === "rock") ||
       (playerRed === 'scissors' && playerYellow === "paper")) {
-      return "red player Wins!"
+      this.setState((prevState, props) => ({
+        redWin: prevState.redWin + 1
+      }))
+      return (
+        "red player Wins"
+      )
     } else {
-      return "Yellow player Wins!"
+      this.setState((prevState, props) => ({
+        yellowWin: prevState.yellowWin + 1
+      }))
+      return "Yellow player Wins"
     }
   }
 
   runGame(symbol) {
-    this.setState({
+    this.setState((prevState, props) => ({
       disabled: true,
-      playerRed:symbol
-    })
+      playerRed: symbol,
+      round: prevState.round + 1
+    }))
     let counter = 0;
     let myinterval = setInterval(() => {
       counter++
       this.setState({
         // playerRed: this.symbols[Math.floor(Math.random() * this.symbols.length)],
         playerYellow: this.symbols[Math.floor(Math.random() * this.symbols.length)],
-        winner: ""
+        winner: " "
       })
       if (counter > 25) {
         clearInterval(myinterval)
         this.setState({
           winner: this.decideWinner(),
-          disabled: false
-        })
+          disabled: false,
+        });
       }
     }, 100)
   }
@@ -104,19 +113,31 @@ class App extends Component {
               symbol={this.state.playerYellow}
             />
           </div>
-          <h2>{this.state.winner}</h2>
           {/* <button className='randomButton' onClick={this.runGame} disabled={this.state.disabled}>
             Rangēmu
           </button> */}
+          <div className='counterbox'>
+            <NameCount
+              user={true}
+              count={this.state.redWin}
+            />
+            <h2 style={{display:'inlineBlock'}}>[{this.state.round}]</h2>
+            <NameCount
+              user={false}
+              count={this.state.yellowWin}
+            />
+          </div>
+          <h2> * {this.state.winner} * </h2>
           <div className='selectorBox'>
             {
               this.symbols.length !== 0 && this.symbols.map((item, i) => {
                 return (
                   <PlayerButton
-                    onselect={()=>{this.runGame(item)}}
+                    onselect={() => { this.runGame(item) }}
                     color={this.colors[i]}
                     key={item}
                     symbol={item}
+                    disabled={this.state.disabled}
                   />
                 )
               })

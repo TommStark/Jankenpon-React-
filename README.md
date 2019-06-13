@@ -3,14 +3,16 @@
 
 # WIP
 - [x] User buttons
+- [x] User/machine name
+- [x] Round and wins/lose counter
+- [x] Style de winning text
+- [ ] Reset button
 - [ ] Button's feedback
-- [ ] User/machine name
-- [ ] Round and wins/lose counter
-- [ ] Style de winning text
+- [ ] Make it Responsive 
 - [ ] Select between PvCPU - CPUvsCPU
 - [ ] Integrate with socket.io for multiplayer option
 
 
-<img src="screenshot.JPG">
+<img src="screenshotII.png">
 
   

@@ -1,5 +1,8 @@
 body{
-  background-color: #FCEEF6;
+  background-color: rgb(230, 218, 225);
+}
+button:focus {
+  outline:0;
 }
 
 .wrapper{
@@ -10,14 +13,12 @@ body{
   height: 100vh;
 }
 .App {
-  /* max-width: 100%; */
   max-width: 600px;
   text-align: center;
-  border: solid white 10px;
-  /* padding-top: 5px; */
-  /* padding-bottom: 40px; */
-  /* padding-left: 20px;
-  padding-right: 20px; */
+  padding: 2rem;
+  border: solid white 8px;
+  background-color: #FCEEF6;
+  padding-bottom: 3rem;
 }
 
 .randomButton{
@@ -40,6 +41,12 @@ body{
   transition: all 200ms ease-out;
 }
 .randomButton:disabled{
+  transition: all 200ms ease-out;
+  background-color: rgb(167, 143, 139);
+  color: rgb(100, 87, 85);
+}
+
+button:disabled{
   transition: all 200ms ease-out;
   background-color: rgb(167, 143, 139);
   color: rgb(100, 87, 85);
@@ -71,8 +78,8 @@ body{
 }
 
 h1{
-  font-size: 4em;
-  margin-bottom:0px;
+  font-size: 4.5em;
+  margin-bottom: 1rem;
   margin-top: 10px
 }
 h2{
@@ -87,4 +94,9 @@ p{
 
 .selectorBox{
   display: flex;
+}
+
+.counterbox{
+  display: flex;
+  justify-content: space-between;
 }
