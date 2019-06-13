@@ -83,7 +83,7 @@ class App extends Component {
         </div>
         <h2>{this.state.winner}</h2>
         <button onClick={this.runGame} disabled={this.state.disabled}> 
-        {/* Rangēmu  */}
+        Rangēmu 
         </button>
       </div>
     );
