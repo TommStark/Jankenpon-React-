@@ -1,14 +1,26 @@
 body{
-  background-color: #FCEEF6
+  background-color: #FCEEF6;
 }
-.App {
+
+.wrapper{
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  height: 100vh;
+}
+.App {
+  /* max-width: 100%; */
+  max-width: 600px;
+  text-align: center;
+  border: solid white 10px;
+  /* padding-top: 5px; */
+  /* padding-bottom: 40px; */
+  /* padding-left: 20px;
+  padding-right: 20px; */
 }
 
-button{
+.randomButton{
   width: 25rem;
   height: 4rem;
   border: 4px solid white;
@@ -23,11 +35,11 @@ button{
   color:white
 }
 
-button:hover{
+.randomButton:hover{
   background-color: rgb(245, 73, 50);
   transition: all 200ms ease-out;
 }
-button:disabled{
+.randomButton:disabled{
   transition: all 200ms ease-out;
   background-color: rgb(167, 143, 139);
   color: rgb(100, 87, 85);
@@ -60,7 +72,8 @@ button:disabled{
 
 h1{
   font-size: 4em;
-  margin-bottom:0px
+  margin-bottom:0px;
+  margin-top: 10px
 }
 h2{
   font-size: 2em;
@@ -70,4 +83,8 @@ h2{
 p{
   font-size: 2em;
   color:#FA5F5C;
+}
+
+.selectorBox{
+  display: flex;
 }
