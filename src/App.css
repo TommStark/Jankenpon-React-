@@ -66,6 +66,19 @@ button:disabled{
   -ms-filter: "FlipH";
 }
 
+@keyframes opening {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.opening-animation{
+  animation: opening 1s;
+}
+
 .player-card{
   text-align: center;
   display: flex;
@@ -75,6 +88,7 @@ button:disabled{
   height: 200px;
   border-radius: 50%;
   margin:1rem;
+  border: black solid 6px;
 }
 
 h1{
@@ -99,4 +113,70 @@ p{
 .counterbox{
   display: flex;
   justify-content: space-between;
+}
+
+.select-btn{
+  border: black solid 5px;
+  padding: 0;
+  height: 10em;
+  flex: 1;
+  margin: 10px;
+  flex:1;
+  animation: opening .2s;
+}
+
+@keyframes winner {
+  from {
+    transform: scale(1);
+  }
+  50%{
+    transform: scale(.85);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.winner{
+  animation: winner 1s;
+  animation-delay: 0;
+  animation-iteration-count: infinite;
+}
+
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+  .App {
+    max-width: 300px;
+  }
+
+  .player-card{
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin:1rem;
+    border: black solid 3.5px;
+  }
+
+  .select-btn{
+    border: black solid 2px;
+    height: 6.5em;
+    margin: 4px;
+  }
+
+  h1{
+    font-size: 2.5em;
+  }
+
+  h2{
+    font-size: 1.3em;
+  }
+
+  p{
+    font-size: 1em;
+  }
+
 }
