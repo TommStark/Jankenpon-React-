@@ -7,12 +7,12 @@ const PlayerCard = ({ color, symbol, win, round }) => {
     backgroundImage: `url(../img/${symbol}.png)`,
     backgroundSize: 'cover',
   }
-  return (<div style={style} className={`player-card ${ round == 0 ? 'opening-animation' : ''} ${win == color ? 'winner' : '' }`}></div>)
+  return (<div style={style} className={`player-card ${ round === 0 ? 'opening-animation' : ''} ${win === color ? 'winner' : '' }`}></div>)
 }
 
 const NameCount = ({ user, count }) => {
   return (
-    <h2 style={{ flexGrow: 2 }}>{user ? 'You : ' : "Cpu : "} {[count]} </h2>
+    <h2 style={{ flexGrow: 2 }}>{user ? 'You : ' : "CPU : "} {[count]} </h2>
   )
 }
 const PlayerButton = ({ color, symbol, onselect, disabled }) => {
@@ -58,14 +58,14 @@ class App extends Component {
         win: "#FA5F5C"
       }))
       return (
-        "red player Wins"
+        "You Wins"
       )
     } else {
       this.setState((prevState, props) => ({
         yellowWin: prevState.yellowWin + 1,
         win: "#F6C318"
       }))
-      return "Yellow player Wins"
+      return "CPU Wins"
     }
   }
 

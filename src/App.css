@@ -18,7 +18,7 @@ button:focus {
   padding: 2rem;
   border: solid white 8px;
   background-color: #FCEEF6;
-  padding-bottom: 3rem;
+  /* padding-bottom: 3rem; */
 }
 
 .randomButton{
@@ -137,6 +137,23 @@ p{
   }
 }
 
+@keyframes winnerLeft {
+  from {
+    transform: scale(1) scaleX(-1);
+  }
+  50%{
+    transform: scale(.85) scaleX(-1);
+  }
+  to {
+    transform: scale(1) scaleX(-1);
+  }
+}
+
+.winner:nth-child(2){
+  animation: winnerLeft 1s;
+  animation-delay: 0;
+  animation-iteration-count: infinite;
+}
 .winner{
   animation: winner 1s;
   animation-delay: 0;
@@ -146,7 +163,13 @@ p{
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
   .App {
-    max-width: 300px;
+    max-width: 400px;
+    border:none;
+    padding: 0;
+  }
+
+  body{
+    background-color: #FCEEF6;
   }
 
   .player-card{
