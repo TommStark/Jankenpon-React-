@@ -15,8 +15,8 @@ button:focus {
 .App {
   max-width: 600px;
   text-align: center;
-  padding: 2rem;
-  border: solid white 8px;
+  padding: 1rem;
+  border: solid white 6px;
   background-color: #FCEEF6;
   /* padding-bottom: 3rem; */
 }
@@ -27,13 +27,13 @@ button:focus {
   border: 4px solid white;
   margin: 1.25rem auto;
   cursor:pointer;
-  padding: 1 rem;
   display:block;
   outline:none;
   border-radius: 50px;
   font-size: 2.5em;
   background-color: #F5260C;
-  color:white
+  color:white;
+  animation: opening .9s;
 }
 
 .randomButton:hover{
@@ -66,19 +66,6 @@ button:disabled{
   -ms-filter: "FlipH";
 }
 
-@keyframes opening {
-  from {
-    transform: scale(0);
-  }
-  to {
-    transform: scale(1);
-  }
-}
-
-.opening-animation{
-  animation: opening 1s;
-}
-
 .player-card{
   text-align: center;
   display: flex;
@@ -108,6 +95,9 @@ p{
 
 .selectorBox{
   display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 166.662px;
 }
 
 .counterbox{
@@ -118,11 +108,34 @@ p{
 .select-btn{
   border: black solid 5px;
   padding: 0;
-  height: 10em;
+  height: 11em;
   flex: 1;
   margin: 10px;
   flex:1;
+  transition: all 200ms ease-out;
   animation: opening .2s;
+  cursor:pointer;
+}
+.select-btn:hover{
+  transition: all 200ms ease-out;
+}
+
+@keyframes opening {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes openingMirror {
+  from {
+    transform: scale(0) scaleX(-1); 
+  }
+  to {
+    transform: scale(1) scaleX(-1);
+  }
 }
 
 @keyframes winner {
@@ -137,7 +150,7 @@ p{
   }
 }
 
-@keyframes winnerLeft {
+@keyframes winnerMirror {
   from {
     transform: scale(1) scaleX(-1);
   }
@@ -149,15 +162,42 @@ p{
   }
 }
 
+.opening-animation{
+  animation: opening 1s;
+}
+
+.opening-animation:nth-child(2){
+  animation: openingMirror 1s;
+}
+
 .winner:nth-child(2){
-  animation: winnerLeft 1s;
+  animation: winnerMirror 1s;
   animation-delay: 0;
   animation-iteration-count: infinite;
 }
+
 .winner{
   animation: winner 1s;
   animation-delay: 0;
   animation-iteration-count: infinite;
+}
+
+.reset-btn-div{
+  display: flex;
+  flex-direction:row-reverse;
+}
+
+.reset-btn{
+  width: 4rem;
+  height: 2rem;
+  border: 3px solid white;
+  cursor:pointer;
+  display:block;
+  outline:none;
+  border-radius: 50px;
+  background-color: #F5260C;
+  color:white;
+  font-size: 1em;
 }
 
 
@@ -189,6 +229,22 @@ p{
     height: 6.5em;
     margin: 4px;
   }
+  .randomButton{
+    width: 15rem;
+    height: 3.5rem;
+    border: 4px solid white;
+    margin: .5rem auto;
+    cursor:pointer;
+    font-size: 1.8em;
+    cursor:pointer;
+  }
+
+  .reset-btn{
+    width: 3rem;
+    height: 1.5rem;
+    border: 2px solid white;
+    font-size: .8em;
+  }
 
   h1{
     font-size: 2.5em;
@@ -200,6 +256,12 @@ p{
 
   p{
     font-size: 1em;
+  }
+  .selectorBox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
   }
 
 }

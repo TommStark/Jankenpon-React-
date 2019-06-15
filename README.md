@@ -6,9 +6,9 @@
 - [x] User/machine name
 - [x] Round and wins/lose counter
 - [x] Style de winning text
-- [ ] Reset button
+- [x] Reset button
 - [ ] Button's feedback
-- [ ] Make it Responsive 
+- [x] Make it Responsive 
 - [ ] Select between PvCPU - CPUvsCPU
 - [ ] Integrate with socket.io for multiplayer option
 
