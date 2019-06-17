@@ -7,8 +7,10 @@
 - [x] Round and wins/lose counter
 - [x] Style de winning text
 - [x] Reset button
-- [ ] Button's feedback
-- [x] Make it Responsive 
+- [x] Button's feedback
+- [x] Make it Responsive
+- [ ] Btn clicked style
+- [ ] Improve counter logic
 - [ ] Select between PvCPU - CPUvsCPU
 - [ ] Integrate with socket.io for multiplayer option
 

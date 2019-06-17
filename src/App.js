@@ -16,14 +16,14 @@ const NameCount = ({ user, count }) => {
   )
 }
 
-const PlayerButton = ({ color, symbol, onselect, disabled }) => {
+const PlayerButton = ({ color, symbol, onselect, disabled, clicked }) => {
   const style = {
     backgroundImage: `url(../img/${symbol}.png)`,
     backgroundSize: 'cover',
-    backgroundColor: color,
+    backgroundColor: clicked ? 'rgb(167, 143, 139)' : color,
   }
   return (
-    <button className='select-btn' style={style} onClick={onselect} disabled={disabled} ></button>
+    <button className='select-btn clicked' style={style} onClick={onselect} disabled={disabled} ></button>
   )
 }
 
@@ -34,7 +34,10 @@ class App extends Component {
     super(props)
     this.myinterval = null;
     this.symbols = ['rock', 'paper', 'scissors'];
+    this.difficulty = ['EASY', 'MEDIUM', 'HARD'];
     this.colors = ['#16B8F8', '#039739', '#F15CB6'];
+    this.speedy = [170, 110, 70];
+    this.rounds = [10, 15, 20];
     this.state = {
       disabled: false,
       disabledSelectors: true,
@@ -46,11 +49,17 @@ class App extends Component {
       yellowWin: 0,
       win: null,
       selectWinner: false,
+      selectMenu: true,
+      speed: null,
+      rounds: null,
+      clicked: false,
+      colorclicked: false,
     }
     this.onReset = this.onReset.bind(this);
     this.startGame = this.startGame.bind(this);
     this.SelectSymbol = this.SelectSymbol.bind(this);
     this.decideWinner = this.decideWinner.bind(this);
+    this.leaveMenu = this.leaveMenu.bind(this)
   }
 
   decideWinner = () => {
@@ -85,31 +94,6 @@ class App extends Component {
     }
   }
 
-  // runGame(symbol) {
-  //   this.setState((prevState, props) => ({
-  //     disabled: true,
-  //     playerRed: symbol,
-  //     round: prevState.round + 1,
-  //     win: null,
-  //   }))
-  //   let counter = 0;
-  //   let myinterval = setInterval(() => {
-  //     counter++
-  //     this.setState({
-  //       // playerRed: this.symbols[Math.floor(Math.random() * this.symbols.length)],
-  //       playerYellow: this.symbols[Math.floor(Math.random() * this.symbols.length)],
-  //       winner: " "
-  //     })
-  //     if (counter > 25) {
-  //       clearInterval(myinterval)
-  //       this.setState({
-  //         winner: this.decideWinner(),
-  //         disabled: false,
-  //       });
-  //     }
-  //   }, 100)
-  // }
-
   componentDidUpdate(prevState) {
     if (this.state.selectWinner !== prevState.selectWinner) {
       if (this.state.selectWinner) {
@@ -119,15 +103,38 @@ class App extends Component {
         })
       }
     }
+    if (this.state.round !== prevState.round) {
+      if (this.state.round === this.state.rounds && this.state.disabledSelectors) {
+        const winner = () => {
+          if (this.state.redWin > this.state.yellowWin) {
+            return ' You Win'
+          } else if (this.state.redWin < this.state.yellowWin) {
+            return ' CPU Win'
+          } else {
+            return 'TABLAS'
+          }
+        }
+        alert(`${winner()}`)
+        this.onReset();
+      }
+    }
   }
 
   SelectSymbol(symbol) {
     clearInterval(this.myinterval);
     this.setState((prevState) => ({
       playerRed: symbol,
-      disabled: false,
-      selectWinner: true
+      disabledSelectors: true,
+      selectWinner: true,
+      clicked: true
     }))
+    setTimeout(() => {
+      this.setState(() => ({
+        disabledSelectors: false,
+        clicked: false,
+      }))
+      this.startGame()
+    }, 1800);
   }
 
   startGame() {
@@ -143,7 +150,7 @@ class App extends Component {
         playerYellow: this.symbols[Math.floor(Math.random() * this.symbols.length)],
         winner: " "
       })
-    }, 150)
+    }, this.state.speed)
   }
 
   onReset() {
@@ -158,66 +165,150 @@ class App extends Component {
       yellowWin: 0,
       win: null,
       selectWinner: false,
+      selectMenu: true,
+      speed: null,
+      rounds: null
+    })
+    clearInterval(this.myinterval);
+  }
+
+  leaveMenu() {
+    this.setState({
+      selectMenu: false,
+    })
+    this.startGame()
+  }
+
+  selectDiff(item) {
+    this.setState({
+      speed: item
+    })
+  }
+
+  selectRounds(item) {
+    this.setState({
+      rounds: item
     })
   }
 
   render() {
     const title = "じゃんけんぽん";
     const subtitle = "jankenpon"
+    const menusubI = "Select Your difficulty"
+    const menusubII = "Select Number Of Rounds"
     return (
       <div className='wrapper'>
-        <div className="App" >
-          <div className='reset-btn-div'>
-            <button
-              className='reset-btn'
-              onClick={this.onReset}
-              disabled={this.state.disabled}
-            >reset</button>
-          </div>
-          <h1 style={{ color: '#F5260C' }}>{title}</h1>
-          <h2>{subtitle}</h2>
-          <div className="board">
-            <PlayerCard
-              key={this.state.round + "#FA5F5C"}
-              color={"#FA5F5C"}
-              symbol={this.state.playerRed}
-              win={this.state.win}
-              round={this.state.round}
-            />
-            <PlayerCard
-              key={this.state.round + "#F6C318" }
-              color="#F6C318"
-              symbol={this.state.playerYellow}
-              win={this.state.win}
-              round={this.state.round}
-            />
-          </div>
-          {/* <button className='randomButton' onClick={this.runGame} disabled={this.state.disabled}>
-            Rangēmu
-          </button> */}
-          <div className='counterbox'>
-            <NameCount
-              user={true}
-              count={this.state.redWin}
-            />
-            <h2 style={{ display: 'inlineBlock' }}>[{this.state.round}]</h2>
-            <NameCount
-              user={false}
-              count={this.state.yellowWin}
-            />
-          </div>
-          <h2> * {this.state.winner} * </h2>
-          <div className='selectorBox'>
-            {
-              this.state.disabledSelectors
-                ?
+        {this.state.selectMenu
+          ?
+          <div className='menu'>
+            <div className='App'>
+              <h1 style={{ color: '#F5260C', fontSize: '3em' }}>{title}</h1>
+              <h2 style={{ fontSize: '1.5em' }}>{menusubI}</h2>
+              <div style={{ display: 'flex', flexDirection: "column" }} >
+                {
+                  this.difficulty.length !== 0 && this.difficulty.map((item, i) => {
+                    return (
+                      <button style={{
+                        backgroundColor: '#FA5F5C',
+                        color: 'white',
+                        border: 'solid .2rem black',
+                        height: '3rem',
+                        margin: '.4rem',
+                        fontSize: '1.5em',
+                        cursor: 'pointer',
+                        borderRadius: '50px',
+                      }}
+                        onClick={() => { this.selectDiff(this.speedy[i]) }}
+                        key={item}
+                        className='clicked'
+                      > {item} </button>
+                    )
+                  })
+                }
+              </div>
+              <h2 style={{ fontSize: '1.5em', marginTop: '1.5rem' }}>{menusubII}</h2>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                {
+                  this.rounds.length !== 0 && this.rounds.map((item, i) => {
+                    return (
+                      <button style={{
+                        backgroundColor: '#F6C318',
+                        color: 'white',
+                        border: 'solid .2rem black',
+                        borderRadius: '50%',
+                        height: '4rem',
+                        width: '4rem',
+                        margin: '.5rem',
+                        fontSize: '1.5em',
+                        cursor: 'pointer'
+                      }}
+                        onClick={() => { this.selectRounds(this.rounds[i]) }}
+                        key={item}
+                        className='clicked'
+                      > {item} </button>
+                    )
+                  })
+                }
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'center' }} className={`${this.state.speed && this.state.rounds ? 'winner' : ''}`}>
                 <button
-                  key={this.state.round}
-                  onClick={this.startGame}
-                  disabled={this.state.disabled}
-                  className='randomButton'
-                > Start Game</button>
-                :
+                  disabled={this.state.speed && this.state.rounds ? false : true}
+                  onClick={this.leaveMenu}
+                  className='randomButton clicked'
+                > GO </button>
+              </div>
+            </div>
+          </div>
+          :
+          <div className="App" >
+            <div className='reset-btn-div'>
+              <button
+                className='reset-btn'
+                onClick={this.onReset}
+                disabled={this.state.disabledSelectors}
+              >Back</button>
+            </div>
+            <h1 style={{ color: '#F5260C' }}>{title}</h1>
+            <h2>{subtitle}</h2>
+            <div className="board">
+              <PlayerCard
+                key={this.state.round + "#FA5F5C"}
+                color={"#FA5F5C"}
+                symbol={this.state.playerRed}
+                win={this.state.win}
+                round={this.state.round}
+              />
+              <PlayerCard
+                key={this.state.round + "#F6C318"}
+                color="#F6C318"
+                symbol={this.state.playerYellow}
+                win={this.state.win}
+                round={this.state.round}
+              />
+            </div>
+            <div className='counterbox'>
+              <NameCount
+                user={true}
+                count={this.state.redWin}
+              />
+              <h2 style={{ display: 'inlineBlock' }}>[{this.state.round}]</h2>
+              <NameCount
+                user={false}
+                count={this.state.yellowWin}
+              />
+            </div>
+            <h2> * {this.state.winner} * </h2>
+            <div className='selectorBox'>
+              {/* this.state.disabledSelectors
+                  ?
+                  <button
+                    key={this.state.round}
+                    onClick={this.startGame}
+                    disabled={this.state.disabled}
+                    className='randomButton'
+                  > Start Game</button>
+                  : */}
+              {
                 this.symbols.length !== 0 && this.symbols.map((item, i) => {
                   return (
                     <PlayerButton
@@ -226,12 +317,14 @@ class App extends Component {
                       key={item}
                       symbol={item}
                       disabled={this.state.disabledSelectors}
+                      clicked={this.state.clicked}
                     />
                   )
                 })
-            }
+              }
+            </div>
           </div>
-        </div>
+        }
       </div>
     );
   }
