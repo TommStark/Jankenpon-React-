@@ -1,6 +1,8 @@
 # JanKenPon
 <p> Rock Paper Scissor game made with react.js</p>
 
+Play the game [Here](https://jankenpon-react.netlify.com)
+
 <img src="jankenpon.gif">
 
 # WIP
