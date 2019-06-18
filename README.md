@@ -16,6 +16,6 @@
 
 
 
-<img src="screenshotIII.png">
+<img src="jankenpon.gif">
 
   
