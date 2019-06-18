@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
+// import NameCount from './components/NameCount'
 
 const PlayerCard = ({ color, symbol, win, round }) => {
   const style = {
     backgroundColor: color,
-    backgroundImage: `url(../img/${symbol}.png)`,
+    backgroundImage: `url(../img/${symbol}A.png)`,
     backgroundSize: 'cover',
   }
-  return (<div style={style} className={`player-card ${round === 0 ? 'opening-animation' : ''} ${win === color ? 'winner' : ''}`}></div>)
+  return (<div style={style} className={`player-card ${round === 1 ? 'opening-animation' : ''} ${win === color ? 'winner' : ''}`}></div>)
 }
 
 const NameCount = ({ user, count }) => {
@@ -18,7 +19,7 @@ const NameCount = ({ user, count }) => {
 
 const PlayerButton = ({ color, symbol, onselect, disabled, clicked }) => {
   const style = {
-    backgroundImage: `url(../img/${symbol}.png)`,
+    backgroundImage: `url(../img/${symbol}B.png)`,
     backgroundSize: 'cover',
     backgroundColor: clicked ? 'rgb(167, 143, 139)' : color,
   }
@@ -27,17 +28,53 @@ const PlayerButton = ({ color, symbol, onselect, disabled, clicked }) => {
   )
 }
 
+const ModalWinner = ({ redWin, yellowWin, closeModal, clear }) => {
+  const winner = () => {
+    if (redWin > yellowWin) {
+      return ' You Win The Game'
+    } else if (redWin < yellowWin) {
+      return ' CPU Win The Game'
+    } else {
+      return 'TABLAS'
+    }
+  }
+  return (
+    <div id="open-modal" className="modal-window" >
+      {clear()}
+      <div>
+        <h1>{winner()} </h1>
+        <h2>You: {redWin} vs CPU: {yellowWin}</h2>
+        <button
+          href="#"
+          title="Close"
+          onClick={closeModal}
+          className='winner'
+          style={{
+            backgroundColor: '#FA5F5C',
+            color: 'white',
+            border: 'solid .1rem black',
+            margin: '.4rem',
+            fontSize: '1.1em',
+            cursor: 'pointer',
+            borderRadius: '50px',
+            padding: '.4em'
+          }}
+        >Back to Menu</button>
+      </div>
+    </div >
+  )
+}
+
 class App extends Component {
 
   constructor(props) {
-
     super(props)
     this.myinterval = null;
     this.symbols = ['rock', 'paper', 'scissors'];
     this.difficulty = ['EASY', 'MEDIUM', 'HARD'];
     this.colors = ['#16B8F8', '#039739', '#F15CB6'];
     this.speedy = [170, 110, 70];
-    this.rounds = [10, 15, 20];
+    this.rounds = [5, 10, 15];
     this.state = {
       disabled: false,
       disabledSelectors: true,
@@ -54,12 +91,15 @@ class App extends Component {
       rounds: null,
       clicked: false,
       colorclicked: false,
+      modal: false,
+      difficulty: ""
     }
     this.onReset = this.onReset.bind(this);
     this.startGame = this.startGame.bind(this);
     this.SelectSymbol = this.SelectSymbol.bind(this);
     this.decideWinner = this.decideWinner.bind(this);
     this.leaveMenu = this.leaveMenu.bind(this)
+    this.clear = this.clear.bind(this);
   }
 
   decideWinner = () => {
@@ -104,18 +144,12 @@ class App extends Component {
       }
     }
     if (this.state.round !== prevState.round) {
-      if (this.state.round === this.state.rounds && this.state.disabledSelectors) {
-        const winner = () => {
-          if (this.state.redWin > this.state.yellowWin) {
-            return ' You Win'
-          } else if (this.state.redWin < this.state.yellowWin) {
-            return ' CPU Win'
-          } else {
-            return 'TABLAS'
-          }
-        }
-        alert(`${winner()}`)
-        this.onReset();
+      if (this.state.round === this.state.rounds && this.state.disabledSelectors && !this.state.modal) {
+        setTimeout(() => {
+          this.setState({
+            modal: true
+          })
+        }, 1500);
       }
     }
   }
@@ -129,11 +163,11 @@ class App extends Component {
       clicked: true
     }))
     setTimeout(() => {
-      this.setState(() => ({
+      !this.state.modal && this.setState(() => ({
         disabledSelectors: false,
         clicked: false,
       }))
-      this.startGame()
+      !this.state.modal && this.startGame()
     }, 1800);
   }
 
@@ -167,7 +201,11 @@ class App extends Component {
       selectWinner: false,
       selectMenu: true,
       speed: null,
-      rounds: null
+      rounds: null,
+      clicked: false,
+      colorclicked: false,
+      modal: false,
+      difficulty: ""
     })
     clearInterval(this.myinterval);
   }
@@ -179,9 +217,10 @@ class App extends Component {
     this.startGame()
   }
 
-  selectDiff(item) {
+  selectDiff(item, diff) {
     this.setState({
-      speed: item
+      speed: item,
+      difficulty: diff
     })
   }
 
@@ -190,6 +229,10 @@ class App extends Component {
       rounds: item
     })
   }
+  clear() {
+    clearInterval(this.myinterval);
+    console.log('CLEAR')
+  }
 
   render() {
     const title = "じゃんけんぽん";
@@ -197,13 +240,14 @@ class App extends Component {
     const menusubI = "Select Your difficulty"
     const menusubII = "Select Number Of Rounds"
     return (
+
       <div className='wrapper'>
         {this.state.selectMenu
           ?
           <div className='menu'>
             <div className='App'>
               <h1 style={{ color: '#F5260C', fontSize: '3em' }}>{title}</h1>
-              <h2 style={{ fontSize: '1.5em' }}>{menusubI}</h2>
+              <h2 style={{ fontSize: '1.5em' }}>{menusubI}: {this.state.difficulty}</h2>
               <div style={{ display: 'flex', flexDirection: "column" }} >
                 {
                   this.difficulty.length !== 0 && this.difficulty.map((item, i) => {
@@ -218,7 +262,7 @@ class App extends Component {
                         cursor: 'pointer',
                         borderRadius: '50px',
                       }}
-                        onClick={() => { this.selectDiff(this.speedy[i]) }}
+                        onClick={() => { this.selectDiff(this.speedy[i], this.difficulty[i]) }}
                         key={item}
                         className='clicked'
                       > {item} </button>
@@ -226,7 +270,7 @@ class App extends Component {
                   })
                 }
               </div>
-              <h2 style={{ fontSize: '1.5em', marginTop: '1.5rem' }}>{menusubII}</h2>
+              <h2 style={{ fontSize: '1.5em', marginTop: '1.5rem' }}>{menusubII}: {this.state.rounds}</h2>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 {
                   this.rounds.length !== 0 && this.rounds.map((item, i) => {
@@ -261,6 +305,17 @@ class App extends Component {
           </div>
           :
           <div className="App" >
+            {
+              this.state.modal ?
+                <ModalWinner
+                  redWin={this.state.redWin}
+                  yellowWin={this.state.yellowWin}
+                  closeModal={this.onReset}
+                  clear={this.clear}
+                />
+                :
+                null
+            }
             <div className='reset-btn-div'>
               <button
                 className='reset-btn'
@@ -299,15 +354,6 @@ class App extends Component {
             </div>
             <h2> * {this.state.winner} * </h2>
             <div className='selectorBox'>
-              {/* this.state.disabledSelectors
-                  ?
-                  <button
-                    key={this.state.round}
-                    onClick={this.startGame}
-                    disabled={this.state.disabled}
-                    className='randomButton'
-                  > Start Game</button>
-                  : */}
               {
                 this.symbols.length !== 0 && this.symbols.map((item, i) => {
                   return (

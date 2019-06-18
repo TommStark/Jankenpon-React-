@@ -218,6 +218,39 @@ p{
   font-size: 1em;
 }
 
+.modal-window {
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.25);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  opacity: 1;
+  transition: all 0.3s;
+}
+.modal-window:target {
+  opacity: 1;
+  pointer-events: auto;
+}
+.modal-window > div {
+  width: 400px;
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 2em;
+  background:rgb(230, 218, 225);
+  border: 6px black solid;
+}
+.modal-window header {
+  font-weight: bold;
+}
+.modal-window h1 {
+  font-size: 3em;
+  margin: 0 0 15px;
+  color: #F5260C
+}
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
   .App {
@@ -279,6 +312,19 @@ p{
     align-items: center;
     justify-content: center;
     height: 100px;
+  }
+  .modal-window h1 {
+    font-size: 1.8em;
+  }
+  .modal-btn {
+    background-Color: '#FA5F5C';
+    color: 'white';
+    border: 'solid .1rem black';
+    height: '2rem';
+    margin: '.4rem';
+    font-Size: '1.5em';
+    cursor: 'pointer';
+    border-Radius: '50px';
   }
 
 }

@@ -9,10 +9,11 @@
 - [x] Reset button
 - [x] Button's feedback
 - [x] Make it Responsive
-- [ ] Btn clicked style
-- [ ] Improve counter logic
-- [ ] Select between PvCPU - CPUvsCPU
+- [x] Btn clicked style
+- [x] Improve counter logic
+- [ ] improve components
 - [ ] Integrate with socket.io for multiplayer option
+
 
 
 <img src="screenshotII.png">
