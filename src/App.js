@@ -1,69 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
-// import NameCount from './components/NameCount'
 
-const PlayerCard = ({ color, symbol, win, round }) => {
-  const style = {
-    backgroundColor: color,
-    backgroundImage: `url(../img/${symbol}A.png)`,
-    backgroundSize: 'cover',
-  }
-  return (<div style={style} className={`player-card ${round === 1 ? 'opening-animation' : ''} ${win === color ? 'winner' : ''}`}></div>)
-}
-
-const NameCount = ({ user, count }) => {
-  return (
-    <h2 style={{ flexGrow: 2 }}>{user ? 'You : ' : "CPU : "} {[count]} </h2>
-  )
-}
-
-const PlayerButton = ({ color, symbol, onselect, disabled, clicked }) => {
-  const style = {
-    backgroundImage: `url(../img/${symbol}B.png)`,
-    backgroundSize: 'cover',
-    backgroundColor: clicked ? 'rgb(167, 143, 139)' : color,
-  }
-  return (
-    <button className='select-btn clicked' style={style} onClick={onselect} disabled={disabled} ></button>
-  )
-}
-
-const ModalWinner = ({ redWin, yellowWin, closeModal, clear }) => {
-  const winner = () => {
-    if (redWin > yellowWin) {
-      return ' You Win The Game'
-    } else if (redWin < yellowWin) {
-      return ' CPU Win The Game'
-    } else {
-      return 'TABLAS'
-    }
-  }
-  return (
-    <div id="open-modal" className="modal-window" >
-      {clear()}
-      <div>
-        <h1>{winner()} </h1>
-        <h2>You: {redWin} vs CPU: {yellowWin}</h2>
-        <button
-          href="#"
-          title="Close"
-          onClick={closeModal}
-          className='winner'
-          style={{
-            backgroundColor: '#FA5F5C',
-            color: 'white',
-            border: 'solid .1rem black',
-            margin: '.4rem',
-            fontSize: '1.1em',
-            cursor: 'pointer',
-            borderRadius: '50px',
-            padding: '.4em'
-          }}
-        >Back to Menu</button>
-      </div>
-    </div >
-  )
-}
+import NameCount from './components/NameCount';
+import PlayerCard from './components/PlayerCard';
+import PlayerButton from './components/PlayerButton';
+import ModalWinner from './components/ModalWinner';
 
 class App extends Component {
 
@@ -247,7 +188,7 @@ class App extends Component {
           <div className='menu'>
             <div className='App'>
               <h1 style={{ color: '#F5260C', fontSize: '3em' }}>{title}</h1>
-              <h2 style={{ fontSize: '1.5em' }}>{menusubI}: {this.state.difficulty}</h2>
+              <h2 style={{ fontSize: '1.5em' }}>{menusubI}: <span style={{color:'red'}}>{this.state.difficulty}</span> </h2>
               <div style={{ display: 'flex', flexDirection: "column" }} >
                 {
                   this.difficulty.length !== 0 && this.difficulty.map((item, i) => {
@@ -270,7 +211,7 @@ class App extends Component {
                   })
                 }
               </div>
-              <h2 style={{ fontSize: '1.5em', marginTop: '1.5rem' }}>{menusubII}: {this.state.rounds}</h2>
+              <h2 style={{ fontSize: '1.5em', marginTop: '1.5rem' }}>{menusubII}: <span style={{color:'red'}}>{this.state.rounds} </span></h2>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 {
                   this.rounds.length !== 0 && this.rounds.map((item, i) => {
