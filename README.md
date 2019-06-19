@@ -15,7 +15,7 @@ Play the game [Here](https://jankenpon-react.netlify.com)
 - [x] Make it Responsive
 - [x] Btn clicked style
 - [x] Improve counter logic
-- [ ] improve components
+- [x] improve components
 - [ ] Integrate with socket.io for multiplayer option
 
 
